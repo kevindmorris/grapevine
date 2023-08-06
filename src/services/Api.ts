@@ -1,9 +1,10 @@
 import AuthApi from "./api/AuthApi";
 import SearchApi from "./api/SearchApi";
+import TrackApi from "./api/TrackApi";
 
 export class Api {}
 
-export interface Api extends AuthApi, SearchApi {}
+export interface Api extends AuthApi, SearchApi, TrackApi {}
 
 function applyMixins(derivedCtor: any, constructors: any[]) {
   constructors.forEach((baseCtor) => {
@@ -18,4 +19,4 @@ function applyMixins(derivedCtor: any, constructors: any[]) {
   });
 }
 
-applyMixins(Api, [AuthApi, SearchApi]);
+applyMixins(Api, [AuthApi, SearchApi, TrackApi]);
