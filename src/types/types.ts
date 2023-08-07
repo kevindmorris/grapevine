@@ -92,3 +92,15 @@ export interface TrackAudioFeaturesObject {
   uri: string;
   valence: number;
 }
+
+export interface TrackRecommendationsObject {
+  seeds: Array<{
+    afterFilteringSize: number;
+    afterRelinkingSize: number;
+    href: string;
+    id: string;
+    initialPoolSize: number;
+    type: string;
+  }>;
+  tracks: Array<TrackObject>;
+}

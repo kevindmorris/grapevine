@@ -1,4 +1,8 @@
-import { TrackAudioFeaturesObject, TrackObject } from "../../types/types";
+import {
+  TrackAudioFeaturesObject,
+  TrackObject,
+  TrackRecommendationsObject,
+} from "../../types/types";
 import _BaseApi from "./_BaseApi";
 
 export default class TrackApi {
@@ -25,6 +29,25 @@ export default class TrackApi {
   ): Promise<TrackAudioFeaturesObject> {
     let response = await this.baseApi().axios.get(
       this.baseApi().base + `/audio-features/${trackId}`,
+      {
+        headers: {
+          Authorization: "Bearer " + access_token,
+        },
+      }
+    );
+
+    return response.data;
+  }
+
+  async getTrackRecommendations(
+    trackId: string,
+    access_token: string
+  ): Promise<TrackRecommendationsObject> {
+    let response = await this.baseApi().axios.get(
+      this.baseApi().base +
+        `/recommendations` +
+        `?seed_tracks=${trackId}` +
+        `&limit=10`,
       {
         headers: {
           Authorization: "Bearer " + access_token,

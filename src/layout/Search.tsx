@@ -2,14 +2,9 @@ import {
   Autocomplete,
   Avatar,
   CircularProgress,
-  IconButton,
-  Link,
-  List,
-  ListItem,
   ListItemAvatar,
   ListItemText,
   MenuItem,
-  Paper,
   TextField,
   useTheme,
 } from "@mui/material";
@@ -17,15 +12,13 @@ import React from "react";
 import { Api } from "../services/Api";
 import { useAppSelector } from "../state/hooks";
 import { TrackObject } from "../types/types";
-import { NavLink, useNavigate } from "react-router-dom";
-import { Clear } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 export default function Search() {
   const theme = useTheme();
 
   const token = useAppSelector((state) => state.auth.token);
 
-  const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
   const [options, setOptions] = React.useState<readonly TrackObject[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -42,9 +35,7 @@ export default function Search() {
       renderOption={(props, option, state) => (
         <MenuItem key={option.id} dense {...props}>
           <ListItemAvatar>
-            <Avatar
-              variant="square"
-            >
+            <Avatar variant="square">
               <img
                 src={option.album.images[2].url}
                 alt=""
@@ -105,6 +96,7 @@ export default function Search() {
           }}
         />
       )}
+      sx={{ my: theme.spacing(3) }}
     />
   );
 }
