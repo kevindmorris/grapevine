@@ -10,7 +10,13 @@ export default class TrackApi {
     return new _BaseApi();
   }
 
-  async getTrack(trackId: string, access_token: string): Promise<TrackObject> {
+  async getTrack({
+    trackId,
+    access_token,
+  }: {
+    trackId: string;
+    access_token: string;
+  }): Promise<TrackObject> {
     let response = await this.baseApi().axios.get(
       this.baseApi().base + `/tracks/${trackId}`,
       {
@@ -23,10 +29,13 @@ export default class TrackApi {
     return response.data;
   }
 
-  async getTrackAudioFeatures(
-    trackId: string,
-    access_token: string
-  ): Promise<TrackAudioFeaturesObject> {
+  async getTrackAudioFeatures({
+    trackId,
+    access_token,
+  }: {
+    trackId: string;
+    access_token: string;
+  }): Promise<TrackAudioFeaturesObject> {
     let response = await this.baseApi().axios.get(
       this.baseApi().base + `/audio-features/${trackId}`,
       {
@@ -39,10 +48,13 @@ export default class TrackApi {
     return response.data;
   }
 
-  async getTrackRecommendations(
-    trackId: string,
-    access_token: string
-  ): Promise<TrackRecommendationsObject> {
+  async getTrackRecommendations({
+    trackId,
+    access_token,
+  }: {
+    trackId: string;
+    access_token: string;
+  }): Promise<TrackRecommendationsObject> {
     let response = await this.baseApi().axios.get(
       this.baseApi().base +
         `/recommendations` +

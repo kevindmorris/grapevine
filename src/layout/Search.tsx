@@ -63,11 +63,12 @@ export default function Search() {
 
         (async () => {
           setLoading(true);
-          const response = await api.getSearch(
-            newInputValue,
-            "track",
-            token.access_token
-          );
+          const response = await api.getSearch({
+            q: newInputValue,
+            type: "track",
+            access_token: token.access_token,
+            limit: 10,
+          });
           setLoading(false);
 
           if (response.tracks) setOptions(response.tracks.items);

@@ -24,7 +24,10 @@ export default function Track() {
     if (id)
       (async () => {
         setLoading(true);
-        const response = await api.getTrack(id, token.access_token);
+        const response = await api.getTrack({
+          trackId: id,
+          access_token: token.access_token,
+        });
 
         setTrack(response);
         setLoading(false);

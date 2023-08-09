@@ -4,7 +4,7 @@ export interface TokenObject {
   expires_in: number;
 }
 
-export interface TrackSearchObject {
+export interface SearchObject {
   tracks?: {
     href: string;
     limit: number;
@@ -69,16 +69,22 @@ export interface AlbumObject {
   name: string;
   release_date: string;
   release_date_precision: string;
+  restrictions: { reason: string };
   type: string;
   uri: string;
-  srtists: ArtistObject[];
+  copyrights: { text: string; type: string };
+  external_ids: { isrc: string; ean: string; upc: string };
+  genres: string[];
+  label: string;
+  popularity: number;
+  album_group: string;
 }
 
 export interface ArtistObject {
   external_urls: {
     spotify: string;
   };
-  followers: { href: string; total: number };
+  followers: { href?: string; total: number };
   genres: string[];
   href: string;
   id: string;
@@ -91,8 +97,8 @@ export interface ArtistObject {
 
 export interface ImageObject {
   url: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
 
 export interface TrackAudioFeaturesObject {

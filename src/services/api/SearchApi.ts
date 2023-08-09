@@ -1,4 +1,4 @@
-import { TrackSearchObject } from "../../types/types";
+import { SearchObject } from "../../types/types";
 import _BaseApi from "./_BaseApi";
 
 export default class SearchApi {
@@ -6,16 +6,26 @@ export default class SearchApi {
     return new _BaseApi();
   }
 
-  async getSearch(
-    q: string,
-    type: string,
-    access_token: string,
-    limit?: number
-  ): Promise<TrackSearchObject> {
+  async getSearch({
+    q,
+    type,
+    limit,
+    offset,
+    access_token,
+  }: {
+    q: string;
+    type: string;
+    limit?: number;
+    offset?: number;
+    access_token: string;
+  }): Promise<SearchObject> {
     let response = await this.baseApi().axios.get(
       this.baseApi().base +
-        `/search?q=${q}&type=${type}` +
-        (limit ? `&limit=${limit}` : ""),
+        `/search` +
+        `?q=${q}` +
+        `&type=${type}` +
+        (limit ? `&limit=${limit}` : "") +
+        (offset ? `&offset=${offset}` : ""),
       {
         headers: {
           Authorization: "Bearer " + access_token,

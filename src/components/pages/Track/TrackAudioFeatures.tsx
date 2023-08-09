@@ -20,10 +20,10 @@ export default function TrackAudioFeatures({ track }: { track?: TrackObject }) {
     if (track?.id)
       (async () => {
         setLoading(true);
-        const audioFeatures = await api.getTrackAudioFeatures(
-          track.id,
-          token.access_token
-        );
+        const audioFeatures = await api.getTrackAudioFeatures({
+          trackId: track.id,
+          access_token: token.access_token,
+        });
 
         setTrackAudioFeatures(audioFeatures);
         setLoading(false);

@@ -34,10 +34,10 @@ export default function TrackRecommendations() {
   const generateTrackRecommendations = async () => {
     if (!id) return;
     setLoading(true);
-    const recommendations = await api.getTrackRecommendations(
-      id,
-      token.access_token
-    );
+    const recommendations = await api.getTrackRecommendations({
+      trackId: id,
+      access_token: token.access_token,
+    });
     setRecommendations(recommendations);
 
     setLoading(false);
