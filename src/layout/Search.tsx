@@ -70,7 +70,7 @@ export default function Search() {
           );
           setLoading(false);
 
-          setOptions(response.tracks.items);
+          if (response.tracks) setOptions(response.tracks.items);
         })();
       }}
       value={null}

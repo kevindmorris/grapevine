@@ -9,10 +9,13 @@ export default class SearchApi {
   async getSearch(
     q: string,
     type: string,
-    access_token: string
+    access_token: string,
+    limit?: number
   ): Promise<TrackSearchObject> {
     let response = await this.baseApi().axios.get(
-      this.baseApi().base + `/search?q=${q}&type=${type}&limit=8`,
+      this.baseApi().base +
+        `/search?q=${q}&type=${type}` +
+        (limit ? `&limit=${limit}` : ""),
       {
         headers: {
           Authorization: "Bearer " + access_token,

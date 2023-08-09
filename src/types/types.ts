@@ -5,7 +5,7 @@ export interface TokenObject {
 }
 
 export interface TrackSearchObject {
-  tracks: {
+  tracks?: {
     href: string;
     limit: number;
     next: string;
@@ -13,6 +13,24 @@ export interface TrackSearchObject {
     previous: string | null;
     total: number;
     items: TrackObject[];
+  };
+  albums?: {
+    href: string;
+    limit: number;
+    next: string;
+    offset: number;
+    previous: string | null;
+    total: number;
+    items: AlbumObject[];
+  };
+  artists?: {
+    href: string;
+    limit: number;
+    next: string;
+    offset: number;
+    previous: string | null;
+    total: number;
+    items: ArtistObject[];
   };
 }
 
@@ -39,6 +57,7 @@ export interface TrackObject {
 
 export interface AlbumObject {
   album_type: string;
+  artists: ArtistObject[];
   total_tracks: number;
   availible_markets: string[];
   external_urls: {
@@ -59,9 +78,13 @@ export interface ArtistObject {
   external_urls: {
     spotify: string;
   };
+  followers: { href: string; total: number };
+  genres: string[];
   href: string;
   id: string;
+  images: ImageObject[];
   name: string;
+  popularity: number;
   type: string;
   uri: string;
 }
