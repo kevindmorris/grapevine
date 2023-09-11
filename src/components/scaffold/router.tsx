@@ -1,12 +1,18 @@
 import { createBrowserRouter } from "react-router-dom";
 import Appframe from "../Appframe";
 import HomePage from "../pages/home/Page";
+import TrackPage from "../pages/track/Page";
+import RecommendationsPage from "../pages/recommendations/Page";
 
 const routes = [
   {
     path: "*",
-    elemenet: <Appframe />,
-    children: [{ path: "*", element: <HomePage /> }],
+    element: <Appframe />,
+    children: [
+      { path: "*", element: <HomePage /> },
+      { path: "track/:id", element: <TrackPage /> },
+      { path: "recommendations", element: <RecommendationsPage /> },
+    ],
   },
 ];
 
