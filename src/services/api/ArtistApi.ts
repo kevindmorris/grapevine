@@ -1,4 +1,4 @@
-import { AlbumObject, ArtistObject, TrackObject } from "../../types/types";
+import { AlbumObject, ArtistObject, TrackObject } from "../../types/interfaces";
 import _BaseApi from "./_BaseApi";
 
 export default class ArtistApi {

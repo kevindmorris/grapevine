@@ -1,4 +1,4 @@
-import { SearchObject } from "../../types/types";
+import { SearchObject } from "../../types/interfaces";
 import _BaseApi from "./_BaseApi";
 
 export default class SearchApi {

@@ -1,8 +1,11 @@
 import React from "react";
 import { useAppDispatch } from "./state/hooks";
 import { postTokenAsync } from "./state/slices/authSlice";
-import Router from "./layout/Router";
-import Appframe from "./layout/Appframe";
+import Appframe from "./components/Appframe";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import theme from "./theme/theme";
+import { RouterProvider } from "react-router-dom";
+import router from "./components/scaffold/router";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -11,7 +14,14 @@ function App() {
     dispatch(postTokenAsync());
   }, []);
 
-  return <Appframe />;
+  return (
+    <>
+      <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </>
+  );
 }
 
 export default App;

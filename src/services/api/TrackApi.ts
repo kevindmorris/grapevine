@@ -2,7 +2,7 @@ import {
   TrackAudioFeaturesObject,
   TrackObject,
   TrackRecommendationsObject,
-} from "../../types/types";
+} from "../../types/interfaces";
 import _BaseApi from "./_BaseApi";
 
 export default class TrackApi {

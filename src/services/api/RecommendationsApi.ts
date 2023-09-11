@@ -1,4 +1,4 @@
-import { TrackRecommendationsObject } from "../../types/types";
+import { TrackRecommendationsObject } from "../../types/interfaces";
 import _BaseApi from "./_BaseApi";
 
 export default class RecommendationsApi {

@@ -1,9 +1,8 @@
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { Provider } from "react-redux";
+
+import App from "./App";
 import store from "./state/store";
-import { BrowserRouter } from "react-router-dom";
-import { CssBaseline } from "@mui/material";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -11,9 +10,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <Provider store={store}>
-    <BrowserRouter>
-      <CssBaseline />
-      <App />
-    </BrowserRouter>
+    <App />
   </Provider>
 );

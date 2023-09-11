@@ -1,5 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { TokenObject } from "../../types/types";
+import { TokenObject } from "../../types/interfaces";
 import { Api } from "../../services/Api";
 
 type State = {
