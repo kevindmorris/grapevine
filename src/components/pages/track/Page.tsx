@@ -1,5 +1,5 @@
 import React from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   TrackAudioFeaturesObject,
   TrackObject,
@@ -29,6 +29,7 @@ export default function Page() {
   const { id } = useParams();
 
   const token = useAppSelector((state) => state.auth.token);
+  const controls = useAppSelector((state) => state.controls);
 
   const [loading, setLoading] = React.useState<boolean>(false);
   const [loadingAudioFeatures, setLoadingAudioFeatures] =
@@ -68,6 +69,7 @@ export default function Page() {
       trackIds: [id],
       access_token: token.access_token,
       limit: 15,
+      controls: controls,
     });
     setTrackRecommendations(response);
     setLoadingRecommendations(false);

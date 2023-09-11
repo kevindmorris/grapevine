@@ -1,4 +1,4 @@
-import { Favorite, Launch, Reorder } from "@mui/icons-material";
+import { Favorite, Launch, QueueMusic, Reorder } from "@mui/icons-material";
 import {
   AppBar,
   Avatar,
@@ -14,12 +14,10 @@ import {
   Toolbar,
   useTheme,
 } from "@mui/material";
-import React from "react";
 import SearchBar from "./SearchBar";
-import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { removeTrack } from "../../state/slices/savedSlice";
+import { useNavigate } from "react-router-dom";
 import SavedDrawer from "./SavedDrawer";
+import ControlsDrawer from "./ControlsDrawer";
 
 export default function NavBar() {
   const theme = useTheme();
@@ -41,7 +39,12 @@ export default function NavBar() {
       <Toolbar
         variant="dense"
         disableGutters
-        sx={{ minHeight: 45, height: 45, alignItems: "center", p: theme.spacing(0.5) }}
+        sx={{
+          minHeight: 45,
+          height: 45,
+          alignItems: "center",
+          p: theme.spacing(0.5),
+        }}
       >
         <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
           <img
@@ -51,10 +54,14 @@ export default function NavBar() {
             style={{ height: 35, cursor: "pointer" }}
           />
         </div>
-        <div style={{ display: "flex", alignItems: "center", flex: 1 }}>
+        <div style={{ display: "flex", alignItems: "center", flex: 2 }}>
           <SearchBar />
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
+          <IconButton size="small" onClick={() => navigate("/recommendations")}>
+            <QueueMusic />
+          </IconButton>
+          <ControlsDrawer />
           <SavedDrawer />
         </div>
       </Toolbar>
