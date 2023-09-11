@@ -14,7 +14,11 @@ export const savedSlice = createSlice({
   initialState,
   reducers: {
     addTrack: (state, action: PayloadAction<TrackObject>) => {
-      state.tracks = [...state.tracks, action.payload];
+      let newTracks = [...state.tracks];
+
+      if (state.tracks.length === 5) newTracks.shift();
+
+      state.tracks = [...newTracks, action.payload];
     },
     removeTrack: (state, action: PayloadAction<TrackObject>) => {
       state.tracks = state.tracks.filter(
