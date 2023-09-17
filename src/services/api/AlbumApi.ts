@@ -36,7 +36,7 @@ export default class AlbumApi {
     limit: number;
     next?: string;
     offset: number;
-    previos?: string;
+    previous?: string;
     total: number;
     items: TrackObject[];
   }> {

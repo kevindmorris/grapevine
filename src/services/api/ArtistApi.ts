@@ -41,7 +41,7 @@ export default class ArtistApi {
     items: AlbumObject[];
   }> {
     let response = await this.baseApi().axios.get(
-      this.baseApi().base + `/albums/${artistId}/albums`,
+      this.baseApi().base + `/artists/${artistId}/albums?include_groups=album`,
       {
         headers: {
           Authorization: "Bearer " + access_token,
@@ -60,7 +60,7 @@ export default class ArtistApi {
     access_token: string;
   }): Promise<{ tracks: TrackObject[] }> {
     let response = await this.baseApi().axios.get(
-      this.baseApi().base + `/albums/${artistId}/top-tracks`,
+      this.baseApi().base + `/artists/${artistId}/top-tracks?market=US`,
       {
         headers: {
           Authorization: "Bearer " + access_token,
@@ -79,7 +79,7 @@ export default class ArtistApi {
     access_token: string;
   }): Promise<{ artists: ArtistObject[] }> {
     let response = await this.baseApi().axios.get(
-      this.baseApi().base + `/albums/${artistId}/related-artists`,
+      this.baseApi().base + `/artists/${artistId}/related-artists`,
       {
         headers: {
           Authorization: "Bearer " + access_token,

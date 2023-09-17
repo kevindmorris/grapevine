@@ -1,15 +1,14 @@
-import { Paper } from "@mui/material";
+import { Box, Paper } from "@mui/material";
 import React from "react";
 import { Outlet } from "react-router-dom";
 import NavBar from "./scaffold/NavBar";
 
 export default function Appframe() {
   return (
-    <Paper
+    <Box
       sx={{
-        flex: "1 1 0",
         minHeight: "100vh",
-        height: "100vh",
+        flex: "1 1 0",
         display: "flex",
         overflow: "hidden",
         paddingTop: "55px",
@@ -18,6 +17,6 @@ export default function Appframe() {
     >
       <NavBar />
       <Outlet />
-    </Paper>
+    </Box>
   );
 }

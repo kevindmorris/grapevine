@@ -4,7 +4,7 @@ export default function LoadingSpinner() {
   return (
     <div
       style={{
-        flex: 1,
+        height: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

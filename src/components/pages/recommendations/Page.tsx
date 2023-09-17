@@ -1,98 +1,62 @@
 import { Box, Button, Container, Typography } from "@mui/material";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import TrackList from "../../shared/TrackList";
-import { TrackRecommendationsObject } from "../../../types/interfaces";
+import {
+  TrackObject,
+  TrackRecommendationsObject,
+} from "../../../types/interfaces";
 import { Api } from "../../../services/Api";
 import LoadingSpinner from "../../shared/LoadingSpinner";
 import { RestartAlt } from "@mui/icons-material";
+import { TrackList } from "../../shared/Elements";
 
 export default function Page() {
-  const dispatch = useAppDispatch();
-
-  const [loadingRecommendations, setLoadingRecommendations] =
-    React.useState<boolean>(false);
-  const [trackRecommendations, setTrackRecommendations] =
-    React.useState<TrackRecommendationsObject>();
-
   const token = useAppSelector((state) => state.auth.token);
   const savedTracks = useAppSelector((state) => state.saved.tracks);
+  const savedTracksIds = savedTracks.map((t) => t.id);
   const controls = useAppSelector((state) => state.controls);
-  const ids = savedTracks.map((t) => t.id);
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [tracks, setTracks] = React.useState<TrackObject[]>();
 
   const api = new Api();
 
-  const fetchTrackRecommendations = React.useCallback(() => {
-    (async () => {
-      if (ids.length === 0) return;
-      setLoadingRecommendations(true);
-      const response: TrackRecommendationsObject = await api.getRecommendations(
-        {
-          trackIds: ids,
-          access_token: token.access_token,
-          limit: 15,
-          controls: controls,
-        }
-      );
-      setTrackRecommendations(response);
-      setLoadingRecommendations(false);
-    })();
-  }, [ids, token.access_token, controls]);
+  const fetchTracks = React.useCallback(
+    async (ids: string[]) => {
+      setLoading(true);
+      const response = await api.getRecommendations({
+        trackIds: ids,
+        access_token: token.access_token,
+        controls: controls,
+      });
+      setTracks(response.tracks);
+      setLoading(false);
+    },
+    [token.access_token, controls]
+  );
 
   React.useEffect(() => {
-    fetchTrackRecommendations();
-  }, []);
+    if (savedTracksIds.length === 0) return;
+    fetchTracks(savedTracksIds);
+  }, [savedTracks]);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <Container
       sx={{
-        display: "grid",
-        gridTemplateColumns: "1fr 2fr",
-        gridTemplateRows: "auto 1fr",
+        display: "flex",
+        flexDirection: "column",
+        gap: 1,
       }}
     >
-      <Box
-        sx={{
-          gridRow: 1,
-          gridColumn: "1/span 2",
-          py: 2,
-          px: 3,
-          display: "flex",
-          gap: 2,
-        }}
-      >
-        <Typography fontWeight="bold" mt="auto" mr="auto">
-          Custom recommendations based on your saved items and specified
-          controls.
-        </Typography>
-
-        <div style={{ marginLeft: "auto", marginTop: "auto" }}>
-          <Button
-            startIcon={<RestartAlt />}
-            onClick={() => {
-              fetchTrackRecommendations();
-            }}
-          >
-            Refresh
-          </Button>
-        </div>
-      </Box>
-
-      <Box
-        sx={{
-          gridRow: 2,
-          gridColumn: "1/span 2",
-          overflowY: "auto",
-          display: "flex",
-          flexDirection: "column",
-        }}
-      >
-        {loadingRecommendations ? (
-          <LoadingSpinner />
-        ) : (
-          <TrackList tracks={trackRecommendations?.tracks} />
-        )}
-      </Box>
+      <Typography variant="h6" fontWeight="bold">
+        Recommendations
+      </Typography>
+      {savedTracksIds.length === 0 ? (
+        <Typography>Save tracks to generate recommendations.</Typography>
+      ) : null}
+      <TrackList tracks={tracks} />
     </Container>
   );
 }
