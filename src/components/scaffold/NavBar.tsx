@@ -12,6 +12,7 @@ import {
   ListItemText,
   MenuItem,
   Toolbar,
+  Tooltip,
   useTheme,
 } from "@mui/material";
 import SearchBar from "./SearchBar";
@@ -58,9 +59,14 @@ export default function NavBar() {
           <SearchBar />
         </div>
         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-          <IconButton size="small" onClick={() => navigate("/recommendations")}>
-            <QueueMusic />
-          </IconButton>
+          <Tooltip title="Open Recommendations Page">
+            <IconButton
+              size="small"
+              onClick={() => navigate("/recommendations")}
+            >
+              <QueueMusic />
+            </IconButton>
+          </Tooltip>
           <ControlsDrawer />
           <SavedDrawer />
         </div>

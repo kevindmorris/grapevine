@@ -80,7 +80,16 @@ function TrackAudioFeatures({ track }: { track: TrackObject }) {
   const token = useAppSelector((state) => state.auth.token);
 
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [features, setFeatures] = React.useState<TrackAudioFeaturesObject>();
+  const [features, setFeatures] = React.useState<
+    {
+      field: string;
+      value: number;
+      min: number;
+      max: number;
+      high: number;
+      low: number;
+    }[]
+  >([]);
 
   const api = new Api();
 
@@ -91,88 +100,85 @@ function TrackAudioFeatures({ track }: { track: TrackObject }) {
         trackId: id,
         access_token: token.access_token,
       });
-      setFeatures(response);
+
+      const newFeatures = [
+        {
+          field: "popularity",
+          value: track.popularity,
+          min: 0,
+          max: 100,
+          high: 75,
+          low: 25,
+        },
+        {
+          field: "acousticness",
+          value: response?.acousticness,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+        {
+          field: "danceability",
+          value: response?.danceability,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+        {
+          field: "energy",
+          value: response?.energy,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+        {
+          field: "instrumentalness",
+          value: response?.instrumentalness,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+        {
+          field: "liveness",
+          value: response?.liveness,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+        {
+          field: "speechiness",
+          value: response?.speechiness,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+        {
+          field: "tempo",
+          value: response?.tempo,
+          min: 0,
+          max: 250,
+          high: 130,
+          low: 60,
+        },
+        {
+          field: "valence",
+          value: response?.valence,
+          min: 0,
+          max: 1,
+          high: 0.75,
+          low: 0.25,
+        },
+      ];
+      setFeatures(newFeatures);
       setLoading(false);
     },
-    [token.access_token]
-  );
-
-  const data = React.useMemo(
-    () => [
-      {
-        field: "popularity",
-        value: track.popularity,
-        min: 0,
-        max: 100,
-        high: 75,
-        low: 25,
-      },
-      {
-        field: "acousticness",
-        value: features?.acousticness,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-      {
-        field: "danceability",
-        value: features?.danceability,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-      {
-        field: "energy",
-        value: features?.energy,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-      {
-        field: "instrumentalness",
-        value: features?.instrumentalness,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-      {
-        field: "liveness",
-        value: features?.liveness,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-      {
-        field: "speechiness",
-        value: features?.speechiness,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-      {
-        field: "tempo",
-        value: features?.tempo,
-        min: 0,
-        max: 250,
-        high: 130,
-        low: 60,
-      },
-      {
-        field: "valence",
-        value: features?.valence,
-        min: 0,
-        max: 1,
-        high: 0.75,
-        low: 0.25,
-      },
-    ],
-    [track.id, features]
+    [token.access_token, track.popularity]
   );
 
   React.useEffect(() => {
@@ -181,51 +187,10 @@ function TrackAudioFeatures({ track }: { track: TrackObject }) {
 
   if (loading || !features) return <LoadingSpinner />;
 
-  const columns: GridColDef[] = [
-    {
-      field: "field",
-      minWidth: 175,
-      valueFormatter: (params: any) => capitalize(params.value),
-    },
-    {
-      field: "value",
-      minWidth: 250,
-      renderCell: (params: any) => (
-        <Paper
-          variant="outlined"
-          sx={{
-            width: "100%",
-            height: "75%",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-          }}
-        >
-          {params.value}
-          <Box
-            sx={{
-              bgcolor: (theme) =>
-                params.value >= params.row.high
-                  ? alpha(theme.palette.success.main, 0.25)
-                  : params.value <= params.row.low
-                  ? alpha(theme.palette.error.main, 0.25)
-                  : alpha(theme.palette.warning.main, 0.25),
-              width: `${(100 * params.row.value) / params.row.max}%`,
-              height: "100%",
-              position: "absolute",
-              left: 0,
-            }}
-          />
-        </Paper>
-      ),
-    },
-  ];
-
   return (
     <DataGrid
       columns={columns}
-      rows={data}
+      rows={features}
       getRowId={(row) => row.field}
       density="compact"
       hideFooter
@@ -233,6 +198,7 @@ function TrackAudioFeatures({ track }: { track: TrackObject }) {
         columnHeaders: () => null,
       }}
       sx={{
+        minHeight: 325,
         height: 325,
         [`&.MuiDataGrid-root`]: { border: "none" },
         [`& .MuiDataGrid-row`]: { border: "none" },
@@ -241,6 +207,47 @@ function TrackAudioFeatures({ track }: { track: TrackObject }) {
     />
   );
 }
+
+const columns: GridColDef[] = [
+  {
+    field: "field",
+    minWidth: 175,
+    valueFormatter: (params: any) => capitalize(params.value),
+  },
+  {
+    field: "value",
+    minWidth: 250,
+    renderCell: (params: any) => (
+      <Paper
+        variant="outlined"
+        sx={{
+          width: "100%",
+          height: "75%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          position: "relative",
+        }}
+      >
+        {params.value}
+        <Box
+          sx={{
+            bgcolor: (theme) =>
+              params.value >= params.row.high
+                ? alpha(theme.palette.success.main, 0.25)
+                : params.value <= params.row.low
+                ? alpha(theme.palette.error.main, 0.25)
+                : alpha(theme.palette.warning.main, 0.25),
+            width: `${(100 * params.row.value) / params.row.max}%`,
+            height: "100%",
+            position: "absolute",
+            left: 0,
+          }}
+        />
+      </Paper>
+    ),
+  },
+];
 
 function SimilarTracks({ track }: { track: TrackObject }) {
   const token = useAppSelector((state) => state.auth.token);

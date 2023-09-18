@@ -4,6 +4,7 @@ import {
   Divider,
   Drawer,
   IconButton,
+  Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
@@ -25,9 +26,11 @@ export default function TemporaryDrawer({
 
   return (
     <>
-      <IconButton size="small" onClick={() => setOpen(true)}>
-        {icon}
-      </IconButton>
+      <Tooltip title={title}>
+        <IconButton size="small" onClick={() => setOpen(true)}>
+          {icon}
+        </IconButton>
+      </Tooltip>
       <Drawer
         variant="temporary"
         anchor="right"
